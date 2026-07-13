@@ -17,14 +17,15 @@ import {
   Award,
   ChevronLeft,
   CheckCircle,
-  FileCheck2
+  FileCheck2,
+  User
 } from 'lucide-react';
 import { STATUSES, PRIORITIES, ROLES } from '../../data/mockData';
 import { toast, Toaster } from 'react-hot-toast';
 
 export const TaskList = () => {
   const { currentUser } = useAuth();
-  const { tasks, projects, addTask, updateTask, deleteTask } = useData();
+  const { tasks, projects, users, addTask, updateTask, deleteTask } = useData();
 
   const [viewMode, setViewMode] = useState('kanban'); // 'kanban' or 'list'
   const [projectFilter, setProjectFilter] = useState('All');
@@ -66,6 +67,21 @@ export const TaskList = () => {
   const getProjectName = (projId) => {
     const p = projects.find((x) => x.ProjectId === projId);
     return p ? p.ProjectTitle : 'Unknown Project';
+  };
+
+  // User assignment lookup
+  const getUserName = (userId) => {
+    const u = users.find((x) => x.UserId === userId);
+    return u ? u.FullName : 'Unknown User';
+  };
+
+  const getTaskAssignmentInfo = (projId) => {
+    const p = projects.find((x) => x.ProjectId === projId);
+    if (!p) return null;
+    return {
+      faculty: getUserName(p.FacultyId),
+      student: getUserName(p.StudentId)
+    };
   };
 
   // Add / Edit actions
@@ -244,6 +260,16 @@ export const TaskList = () => {
                         {task.TaskDescription && (
                           <p className="text-xs text-slate-500 line-clamp-2 pt-0.5">{task.TaskDescription}</p>
                         )}
+                        {/* Task Assignment Details */}
+                        {(() => {
+                          const assignment = getTaskAssignmentInfo(task.ProjectId);
+                          return assignment ? (
+                            <div className="flex items-center gap-1 pt-1.5 text-[10px] text-slate-400 font-medium bg-slate-800/20 px-1.5 py-1 rounded inline-flex mt-1">
+                              <User className="w-3 h-3 text-slate-500" />
+                              <span>{assignment.faculty} <ArrowRight className="w-2.5 h-2.5 inline mx-0.5 text-slate-600" /> {assignment.student}</span>
+                            </div>
+                          ) : null;
+                        })()}
                       </div>
 
                       <div className="flex items-center justify-between pt-3 border-t border-slate-800/30 text-[10px] text-slate-500">
@@ -353,6 +379,16 @@ export const TaskList = () => {
                         {t.TaskDescription && (
                           <span className="text-[10px] text-slate-500 line-clamp-1 mt-0.5">{t.TaskDescription}</span>
                         )}
+                        {/* Assignment Details for Table */}
+                        {(() => {
+                          const assignment = getTaskAssignmentInfo(t.ProjectId);
+                          return assignment ? (
+                            <div className="flex items-center gap-1 mt-1.5 text-[10px] text-slate-450 bg-slate-800/30 px-1.5 py-0.5 rounded inline-flex">
+                              <User className="w-2.5 h-2.5 opacity-70" />
+                              <span>{assignment.faculty} <ArrowRight className="w-2.5 h-2.5 inline mx-0.5 text-slate-600" /> {assignment.student}</span>
+                            </div>
+                          ) : null;
+                        })()}
                       </td>
                       <td className="px-5 py-4 text-xs font-semibold text-brand-400 max-w-[200px] truncate">
                         {getProjectName(t.ProjectId)}
