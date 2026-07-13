@@ -5,7 +5,7 @@ import { DataTable } from '../../components/common/DataTable';
 import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
 import { Modal } from '../../components/common/Modal';
-import { UserPlus, Edit2, Trash2, ShieldAlert, Eye } from 'lucide-react';
+import { UserPlus, Edit2, Trash2, Eye } from 'lucide-react';
 import { UserForm } from './UserForm';
 import { toast, Toaster } from 'react-hot-toast';
 

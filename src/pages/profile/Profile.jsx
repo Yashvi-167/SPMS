@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import { Button } from '../../components/common/Button';
-import { Camera, User, Mail, Phone, Lock, CheckCircle, ShieldAlert } from 'lucide-react';
+import { Camera, User, Mail, Phone, Lock } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
 
 export const Profile = () => {
