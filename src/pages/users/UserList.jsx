@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 import { DataTable } from '../../components/common/DataTable';
 import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
 import { Modal } from '../../components/common/Modal';
-import { UserPlus, Edit2, Trash2, ShieldAlert } from 'lucide-react';
+import { UserPlus, Edit2, Trash2, ShieldAlert, Eye } from 'lucide-react';
 import { UserForm } from './UserForm';
 import { toast, Toaster } from 'react-hot-toast';
 
 export const UserList = () => {
+  const navigate = useNavigate();
   const { users, deleteUser, addUser, updateUser } = useData();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -170,8 +172,18 @@ export const UserList = () => {
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={() => navigate(`/profile/${row.UserId}`)}
+                className="!p-1.5 text-blue-400 hover:bg-blue-500/10 hover:text-blue-350"
+                title="View Profile"
+              >
+                <Eye className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => handleEdit(row)}
                 className="!p-1.5 text-brand-400 hover:bg-brand-600/10 hover:text-brand-350"
+                title="Edit Account"
               >
                 <Edit2 className="w-4 h-4" />
               </Button>

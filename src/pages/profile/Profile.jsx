@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useData } from '../../context/DataContext';
 import { Button } from '../../components/common/Button';
 import { Camera, User, Mail, Phone, Lock, CheckCircle, ShieldAlert } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
 
 export const Profile = () => {
+  const { id } = useParams();
   const { currentUser, updateProfile } = useAuth();
+  const { users } = useData();
+
+  const isViewingOther = Boolean(id && currentUser?.UserId && parseInt(id) !== currentUser.UserId);
+  const targetUser = isViewingOther ? users.find((u) => u.UserId === parseInt(id)) : currentUser;
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,14 +24,14 @@ export const Profile = () => {
 
   // Sync edits
   useEffect(() => {
-    if (currentUser) {
-      setFullName(currentUser.FullName || '');
-      setEmail(currentUser.Email || '');
-      setMobileNumber(currentUser.MobileNumber || '');
-      setPassword(currentUser.Password || '');
-      setAvatarBase64(currentUser.ProfilePicturePath || null);
+    if (targetUser) {
+      setFullName(targetUser.FullName || '');
+      setEmail(targetUser.Email || '');
+      setMobileNumber(targetUser.MobileNumber || '');
+      setPassword(targetUser.Password || '');
+      setAvatarBase64(targetUser.ProfilePicturePath || null);
     }
-  }, [currentUser]);
+  }, [targetUser]);
 
   // Handle local avatar upload and convert to base64
   const handleAvatarChange = (e) => {
@@ -75,9 +82,9 @@ export const Profile = () => {
   };
 
   const getRoleLabel = () => {
-    if (!currentUser) return '';
-    if (currentUser.RoleId === 1) return 'Administrator';
-    if (currentUser.RoleId === 2) return 'Faculty Guide';
+    if (!targetUser) return '';
+    if (targetUser.RoleId === 1) return 'Administrator';
+    if (targetUser.RoleId === 2) return 'Faculty Guide';
     return 'Student Researcher';
   };
 
@@ -87,14 +94,20 @@ export const Profile = () => {
 
       {/* Header title */}
       <div>
-        <h1 className="text-2xl font-black font-display text-white">Account Center</h1>
-        <p className="text-slate-400 text-xs mt-1">Configure profile details, upload verification photos and modify access passwords.</p>
+        <h1 className="text-2xl font-black font-display text-white">
+          {isViewingOther ? `${fullName}'s Profile` : 'Account Center'}
+        </h1>
+        <p className="text-slate-400 text-xs mt-1">
+          {isViewingOther 
+            ? 'Viewing user profile details and access information.' 
+            : 'Configure profile details, upload verification photos and modify access passwords.'}
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left Side: Avatar Card */}
         <div className="glass-card p-6 text-center flex flex-col items-center justify-center border-slate-800 bg-[#12122c]/60 h-80 relative">
-          <div className="relative group cursor-pointer mb-4" onClick={handleTriggerFileSelect}>
+          <div className="relative group cursor-pointer mb-4" onClick={!isViewingOther ? handleTriggerFileSelect : undefined}>
             <div className="w-24 h-24 rounded-2xl bg-gradient-brand flex items-center justify-center font-extrabold text-white text-2xl shadow-glow overflow-hidden">
               {avatarBase64 ? (
                 <img src={avatarBase64} alt="Avatar" className="w-full h-full object-cover rounded-2xl" />
@@ -104,9 +117,11 @@ export const Profile = () => {
             </div>
             
             {/* Overlap camera widget */}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-2xl flex items-center justify-center text-white">
-              <Camera className="w-5 h-5" />
-            </div>
+            {!isViewingOther && (
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-2xl flex items-center justify-center text-white">
+                <Camera className="w-5 h-5" />
+              </div>
+            )}
           </div>
 
           <input
@@ -121,15 +136,17 @@ export const Profile = () => {
           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mt-1">
             {getRoleLabel()}
           </span>
-          <p className="text-xs text-slate-500 mt-4 leading-relaxed">
-            Click avatar to choose a custom local image (Max 2MB).
-          </p>
+          {!isViewingOther && (
+            <p className="text-xs text-slate-500 mt-4 leading-relaxed">
+              Click avatar to choose a custom local image (Max 2MB).
+            </p>
+          )}
         </div>
 
         {/* Right Side: Account details Form */}
         <div className="glass-card p-6 md:col-span-2 border-slate-800 bg-[#12122c]/60">
           <h2 className="text-sm font-bold text-slate-300 font-display uppercase tracking-wider pb-3 border-b border-slate-800/40 mb-6">
-            Modify Profile Settings
+            {isViewingOther ? 'User Profile Details' : 'Modify Profile Settings'}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -145,9 +162,10 @@ export const Profile = () => {
                 <input
                   type="text"
                   required
+                  disabled={isViewingOther}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 disabled:opacity-70"
                 />
               </div>
             </div>
@@ -164,9 +182,10 @@ export const Profile = () => {
                 <input
                   type="email"
                   required
+                  disabled={isViewingOther}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 disabled:opacity-70"
                 />
               </div>
             </div>
@@ -182,9 +201,10 @@ export const Profile = () => {
                 </span>
                 <input
                   type="text"
+                  disabled={isViewingOther}
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value)}
-                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 disabled:opacity-70"
                 />
               </div>
             </div>
@@ -199,21 +219,24 @@ export const Profile = () => {
                   <Lock className="w-4 h-4" />
                 </span>
                 <input
-                  type="password"
+                  type={isViewingOther ? "text" : "password"}
                   required
+                  disabled={isViewingOther}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 disabled:opacity-70"
                 />
               </div>
             </div>
 
             {/* Actions button */}
-            <div className="pt-4 flex items-center justify-end">
-              <Button type="submit" variant="primary" size="md">
-                Update Account Profile
-              </Button>
-            </div>
+            {!isViewingOther && (
+              <div className="pt-4 flex items-center justify-end">
+                <Button type="submit" variant="primary" size="md">
+                  Update Account Profile
+                </Button>
+              </div>
+            )}
           </form>
         </div>
       </div>

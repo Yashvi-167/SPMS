@@ -51,6 +51,11 @@ export const AppRouter = () => {
           
           {/* Profile Details */}
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/:id" element={
+            <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+              <Profile />
+            </ProtectedRoute>
+          } />
         </Route>
 
         {/* Catch-all redirect */}
