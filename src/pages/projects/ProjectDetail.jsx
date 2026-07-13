@@ -64,11 +64,10 @@ export const ProjectDetail = () => {
     return { assigned, earned };
   }, [projectTasks]);
 
-  // Action Permissions
+  // Only Admin and Faculty can manage tasks — Students are read-only
   const canManageTasks = currentUser && (
     currentUser.RoleId === ROLES.ADMIN || 
-    currentUser.RoleId === ROLES.FACULTY ||
-    (currentUser.RoleId === ROLES.STUDENT && project?.StudentId === currentUser.UserId)
+    currentUser.RoleId === ROLES.FACULTY
   );
 
   // Form submission inside modal

@@ -118,14 +118,10 @@ export const TaskList = () => {
     });
   };
 
-  // Check management details
-  const canModifyTask = (task) => {
+  // Only Admin and Faculty can add/edit/delete tasks — Students are read-only
+  const canModifyTask = () => {
     if (!currentUser) return false;
-    if (currentUser.RoleId === ROLES.ADMIN || currentUser.RoleId === ROLES.FACULTY) return true;
-    
-    // Student can modify tasks assigned to their project
-    const studentProject = projects.find((p) => p.StudentId === currentUser.UserId);
-    return studentProject && task.ProjectId === studentProject.ProjectId;
+    return currentUser.RoleId === ROLES.ADMIN || currentUser.RoleId === ROLES.FACULTY;
   };
 
   return (
@@ -143,8 +139,8 @@ export const TaskList = () => {
           </p>
         </div>
 
-        {/* Display create option if eligible */}
-        {(currentUser?.RoleId !== ROLES.STUDENT || projects.some(p => p.StudentId === currentUser.UserId)) && (
+        {/* Only Admin and Faculty can create tasks */}
+        {currentUser?.RoleId !== ROLES.STUDENT && (
           <Button onClick={handleAddNew} variant="primary" className="flex items-center gap-2 text-xs py-2.5 px-4 rounded-xl">
             <Plus className="w-4 h-4" />
             Create Task
