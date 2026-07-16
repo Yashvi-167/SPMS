@@ -260,10 +260,50 @@ export const ProjectDetail = () => {
                         )}
                       </td>
                       <td className="px-5 py-3.5">
-                        <Badge text={t.Status} type="status" />
+                        {canManageTasks ? (
+                          <select
+                            value={t.Status}
+                            onChange={(e) => {
+                              const newStatus = e.target.value;
+                              const patch = { Status: newStatus };
+                              if (newStatus === STATUSES.COMPLETED) {
+                                patch.CompletedDate = new Date().toISOString().split('T')[0];
+                                patch.EarnedScore = t.EarnedScore || t.AssignedScore;
+                              }
+                              updateTask(t.TaskId, patch);
+                              toast.success(`Status updated to ${newStatus}`, {
+                                style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+                              });
+                            }}
+                            className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-205 focus:outline-none focus:border-brand-500"
+                          >
+                            <option value={STATUSES.PENDING}>Pending</option>
+                            <option value={STATUSES.IN_PROGRESS}>In Progress</option>
+                            <option value={STATUSES.COMPLETED}>Completed</option>
+                          </select>
+                        ) : (
+                          <Badge text={t.Status} type="status" />
+                        )}
                       </td>
                       <td className="px-5 py-3.5">
-                        <Badge text={t.Priority} type="priority" />
+                        {canManageTasks ? (
+                          <select
+                            value={t.Priority}
+                            onChange={(e) => {
+                              updateTask(t.TaskId, { Priority: e.target.value });
+                              toast.success(`Priority updated to ${e.target.value}`, {
+                                style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+                              });
+                            }}
+                            className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-205 focus:outline-none focus:border-brand-500"
+                          >
+                            <option value={PRIORITIES.LOW}>Low</option>
+                            <option value={PRIORITIES.MEDIUM}>Medium</option>
+                            <option value={PRIORITIES.HIGH}>High</option>
+                          </select>
+                        ) : (
+                          <Badge text={t.Priority} type="priority" />
+                        )}
                       </td>
                       <td className="px-5 py-3.5 text-xs text-slate-400">{t.DueDate}</td>
                       <td className="px-5 py-3.5 text-xs font-bold text-slate-300">

@@ -277,7 +277,25 @@ export const TaskList = () => {
                           <Calendar className="w-3.5 h-3.5" />
                           {task.DueDate}
                         </span>
-                        <Badge text={task.Priority} type="priority" />
+                        {/* Inline Priority Selector on Card for Admin/Faculty */}
+                        {canModifyTask() ? (
+                          <select
+                            value={task.Priority}
+                            onChange={(e) => {
+                              updateTask(task.TaskId, { Priority: e.target.value });
+                              toast.success(`Priority updated to ${e.target.value}`, {
+                                style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+                              });
+                            }}
+                            className="bg-[#1b1b3a] border border-slate-800 rounded px-1.5 py-0.5 text-[10px] text-slate-300 focus:outline-none focus:border-brand-500 font-semibold"
+                          >
+                            <option value={PRIORITIES.LOW}>Low</option>
+                            <option value={PRIORITIES.MEDIUM}>Medium</option>
+                            <option value={PRIORITIES.HIGH}>High</option>
+                          </select>
+                        ) : (
+                          <Badge text={task.Priority} type="priority" />
+                        )}
                       </div>
 
                       {/* Kanban Action Buttons */}
@@ -394,10 +412,39 @@ export const TaskList = () => {
                         {getProjectName(t.ProjectId)}
                       </td>
                       <td className="px-5 py-4">
-                        <Badge text={t.Status} type="status" />
+                        {canModifyTask() ? (
+                          <select
+                            value={t.Status}
+                            onChange={(e) => handleMoveStatus(t, e.target.value)}
+                            className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-205 focus:outline-none focus:border-brand-500"
+                          >
+                            <option value={STATUSES.PENDING}>Pending</option>
+                            <option value={STATUSES.IN_PROGRESS}>In Progress</option>
+                            <option value={STATUSES.COMPLETED}>Completed</option>
+                          </select>
+                        ) : (
+                          <Badge text={t.Status} type="status" />
+                        )}
                       </td>
                       <td className="px-5 py-4">
-                        <Badge text={t.Priority} type="priority" />
+                        {canModifyTask() ? (
+                          <select
+                            value={t.Priority}
+                            onChange={(e) => {
+                              updateTask(t.TaskId, { Priority: e.target.value });
+                              toast.success(`Priority updated to ${e.target.value}`, {
+                                style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+                              });
+                            }}
+                            className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-205 focus:outline-none focus:border-brand-500"
+                          >
+                            <option value={PRIORITIES.LOW}>Low</option>
+                            <option value={PRIORITIES.MEDIUM}>Medium</option>
+                            <option value={PRIORITIES.HIGH}>High</option>
+                          </select>
+                        ) : (
+                          <Badge text={t.Priority} type="priority" />
+                        )}
                       </td>
                       <td className="px-5 py-4 text-xs text-slate-400">{t.DueDate}</td>
                       <td className="px-5 py-4 text-xs font-bold text-slate-350">
