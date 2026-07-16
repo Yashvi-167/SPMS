@@ -52,6 +52,17 @@ export const Login = () => {
       if (!email.trim()) throw new Error('Please enter your email.');
       if (!password.trim()) throw new Error('Please choose a password.');
 
+      // Validate mobile number if provided
+      if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
+        throw new Error('Mobile number must be exactly 10 digits.');
+      }
+
+      // Validate password
+      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=\-[\]{};':"\\|,.<>/?]).{8,}$/;
+      if (!pwdRegex.test(password)) {
+        throw new Error('Password must be at least 8 chars long, include uppercase, lowercase, and a special character.');
+      }
+
       // Check if email already exists
       const emailExists = users.some(u => u.Email.toLowerCase() === email.toLowerCase());
       if (emailExists) {
@@ -204,7 +215,7 @@ export const Login = () => {
                     </span>
                     <input
                       type="text"
-                      placeholder="+1 (555) 012-3456"
+                      placeholder="e.g. 9876543210"
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
                       className="w-full bg-[#171735] border border-slate-800/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
@@ -246,7 +257,7 @@ export const Login = () => {
                 <input
                   type="password"
                   required
-                  placeholder="••••••••"
+                  placeholder={isSignUp ? 'At least 8 chars, 1 uppercase, 1 special' : '••••••••'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-[#171735] border border-slate-800/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"

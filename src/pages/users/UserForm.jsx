@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ROLES } from '../../data/mockData';
 import { Button } from '../../components/common/Button';
+import { toast } from 'react-hot-toast';
 
 export const UserForm = ({ initialData, onSubmit, onCancel }) => {
   const [fullName, setFullName] = useState('');
@@ -31,11 +32,40 @@ export const UserForm = ({ initialData, onSubmit, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate Mobile Number (10 digits)
+    if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
+      toast.error('Mobile number must be exactly 10 digits.', {
+        style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+      });
+      return;
+    }
+
+    // Validate Password
+    // If it's a new user and no password is provided, we don't allow 'password123' anymore without validation.
+    // They must provide a valid password.
+    if (!initialData && !password) {
+      toast.error('Password is required for new users.', {
+        style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+      });
+      return;
+    }
+
+    if (password) {
+      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=\-[\]{};':"\\|,.<>/?]).{8,}$/;
+      if (!pwdRegex.test(password)) {
+        toast.error('Password must be at least 8 characters, include uppercase, lowercase, and a special character.', {
+          style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+        });
+        return;
+      }
+    }
+
     onSubmit({
       FullName: fullName,
       Email: email,
       MobileNumber: mobileNumber,
-      Password: password || 'password123',
+      Password: password || initialData?.Password,
       RoleId: Number(roleId),
       IsActive: isActive,
     });
@@ -80,7 +110,7 @@ export const UserForm = ({ initialData, onSubmit, onCancel }) => {
         </label>
         <input
           type="password"
-          placeholder={initialData ? 'Leave blank to preserve current' : '••••••••'}
+          placeholder={initialData ? 'Leave blank to preserve current' : 'At least 8 chars, 1 uppercase, 1 special'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
@@ -94,7 +124,7 @@ export const UserForm = ({ initialData, onSubmit, onCancel }) => {
         </label>
         <input
           type="text"
-          placeholder="+1 (555) 000-0000"
+          placeholder="e.g. 9876543210"
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
           className="w-full bg-[#1b1b3a] border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"

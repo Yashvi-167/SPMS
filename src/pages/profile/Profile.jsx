@@ -62,6 +62,25 @@ export const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate mobile
+    if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
+      toast.error('Mobile number must be exactly 10 digits.', {
+        style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+      });
+      return;
+    }
+
+    // Validate password
+    if (password) {
+      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+=\-[\]{};':"\\|,.<>/?]).{8,}$/;
+      if (!pwdRegex.test(password)) {
+        toast.error('Password must be at least 8 chars long, include uppercase, lowercase, and a special character.', {
+          style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+        });
+        return;
+      }
+    }
+
     try {
       updateProfile({
         FullName: fullName,
@@ -201,6 +220,7 @@ export const Profile = () => {
                 </span>
                 <input
                   type="text"
+                  placeholder="e.g. 9876543210"
                   disabled={isViewingOther}
                   value={mobileNumber}
                   onChange={(e) => setMobileNumber(e.target.value)}
@@ -221,6 +241,7 @@ export const Profile = () => {
                 <input
                   type={isViewingOther ? "text" : "password"}
                   required
+                  placeholder={isViewingOther ? '' : 'At least 8 chars, 1 uppercase, 1 special'}
                   disabled={isViewingOther}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
