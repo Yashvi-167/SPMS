@@ -33,6 +33,15 @@ export const UserForm = ({ initialData, onSubmit, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate Email Constraint
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@spms\.edu$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Email must be a valid institutional address (e.g. name@spms.edu).', {
+        style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+      });
+      return;
+    }
+
     // Validate Mobile Number (10 digits)
     if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
       toast.error('Mobile number must be exactly 10 digits.', {

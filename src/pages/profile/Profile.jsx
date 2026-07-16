@@ -62,6 +62,15 @@ export const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate email
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@spms\.edu$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Email must be a valid institutional address (e.g. name@spms.edu).', {
+        style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+      });
+      return;
+    }
+
     // Validate mobile
     if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
       toast.error('Mobile number must be exactly 10 digits.', {

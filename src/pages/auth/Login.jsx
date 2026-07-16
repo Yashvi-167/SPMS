@@ -52,6 +52,12 @@ export const Login = () => {
       if (!email.trim()) throw new Error('Please enter your email.');
       if (!password.trim()) throw new Error('Please choose a password.');
 
+      // Validate Email Constraint
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@spms\.edu$/;
+      if (!emailRegex.test(email)) {
+        throw new Error('Email must be a valid institutional address (e.g. name@spms.edu).');
+      }
+
       // Validate mobile number if provided
       if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
         throw new Error('Mobile number must be exactly 10 digits.');
