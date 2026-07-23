@@ -37,10 +37,10 @@ export const StatusList = () => {
                 statuses.map((s, index) => (
                   <tr key={index} className="hover:bg-slate-800/20 transition-colors">
                     <td className="px-5 py-4">
-                      <span className="font-semibold text-slate-200 block text-sm">{s}</span>
+                      <span className="font-semibold text-slate-200 block text-sm">{s.StatusName}</span>
                     </td>
                     <td className="px-5 py-4">
-                      <Badge text={s} type="status" />
+                      <Badge text={s.StatusName} type="status" />
                     </td>
                     <td className="px-5 py-4 text-right">
                       <span className="text-xs text-slate-500 font-medium">System Default</span>

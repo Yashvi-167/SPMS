@@ -37,10 +37,10 @@ export const PriorityList = () => {
                 priorities.map((p, index) => (
                   <tr key={index} className="hover:bg-slate-800/20 transition-colors">
                     <td className="px-5 py-4">
-                      <span className="font-semibold text-slate-200 block text-sm">{p}</span>
+                      <span className="font-semibold text-slate-200 block text-sm">{p.PriorityName}</span>
                     </td>
                     <td className="px-5 py-4">
-                      <Badge text={p} type="priority" />
+                      <Badge text={p.PriorityName} type="priority" />
                     </td>
                     <td className="px-5 py-4 text-right">
                       <span className="text-xs text-slate-500 font-medium">System Default</span>
