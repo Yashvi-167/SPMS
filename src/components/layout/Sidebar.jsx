@@ -9,7 +9,9 @@ import {
   LogOut, 
   ChevronLeft, 
   ChevronRight,
-  GraduationCap
+  GraduationCap,
+  Activity,
+  AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { ROLES } from '../../data/mockData';
@@ -48,6 +50,18 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
       path: '/tasks',
       icon: CheckSquare,
       roles: [ROLES.ADMIN, ROLES.FACULTY, ROLES.STUDENT],
+    },
+    {
+      label: 'Status',
+      path: '/status',
+      icon: Activity,
+      roles: [ROLES.ADMIN],
+    },
+    {
+      label: 'Priority',
+      path: '/priority',
+      icon: AlertCircle,
+      roles: [ROLES.ADMIN],
     },
     {
       label: 'Profile',

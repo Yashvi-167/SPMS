@@ -8,6 +8,8 @@ import UserList from '../pages/users/UserList';
 import ProjectList from '../pages/projects/ProjectList';
 import ProjectDetail from '../pages/projects/ProjectDetail';
 import TaskList from '../pages/tasks/TaskList';
+import StatusList from '../pages/status/StatusList';
+import PriorityList from '../pages/priority/PriorityList';
 import Profile from '../pages/profile/Profile';
 import { ROLES } from '../data/mockData';
 
@@ -48,6 +50,24 @@ export const AppRouter = () => {
           
           {/* Tasks (Admin, Faculty, Student) */}
           <Route path="tasks" element={<TaskList />} />
+          
+          {/* Status & Priority Management (Admin only) */}
+          <Route
+            path="status"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+                <StatusList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="priority"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+                <PriorityList />
+              </ProtectedRoute>
+            }
+          />
           
           {/* Profile Details */}
           <Route path="profile" element={<Profile />} />
