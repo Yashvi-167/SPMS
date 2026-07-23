@@ -63,7 +63,6 @@ export const PriorityList = () => {
             <thead className="bg-[#1b1b3a]/75 text-slate-200 uppercase text-xs tracking-wider border-b border-slate-800">
               <tr>
                 <th className="px-5 py-4 font-semibold">Task Name</th>
-                <th className="px-5 py-4 font-semibold w-40">Status</th>
                 <th className="px-5 py-4 font-semibold w-40">Priority</th>
                 <th className="px-5 py-4 font-semibold text-right w-24">Actions</th>
               </tr>
@@ -75,17 +74,6 @@ export const PriorityList = () => {
                     <td className="px-5 py-4">
                       <span className="font-semibold text-slate-200 block text-sm">{t.TaskTitle}</span>
                       <span className="text-xs text-slate-500 line-clamp-1 mt-0.5">{t.TaskDescription}</span>
-                    </td>
-                    <td className="px-5 py-4">
-                      <select
-                        value={t.Status}
-                        onChange={(e) => handleStatusChange(t.TaskId, e.target.value)}
-                        className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-semibold"
-                      >
-                        <option value={STATUSES.PENDING}>Pending</option>
-                        <option value={STATUSES.IN_PROGRESS}>In Progress</option>
-                        <option value={STATUSES.COMPLETED}>Completed</option>
-                      </select>
                     </td>
                     <td className="px-5 py-4">
                       <select
@@ -120,7 +108,7 @@ export const PriorityList = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="text-center py-8 text-slate-500 text-sm">
+                  <td colSpan={3} className="text-center py-8 text-slate-500 text-sm">
                     No tasks found.
                   </td>
                 </tr>
