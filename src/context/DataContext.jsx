@@ -14,8 +14,8 @@ export const DataProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [statuses] = useState(initialStatuses);
-  const [priorities] = useState(initialPriorities);
+  const [statuses, setStatuses] = useState([]);
+  const [priorities, setPriorities] = useState([]);
 
   // Load initial data or localStorage
   useEffect(() => {
@@ -42,6 +42,23 @@ export const DataProvider = ({ children }) => {
     } else {
       localStorage.setItem('spms_tasks', JSON.stringify(initialTasks));
       setTasks(initialTasks);
+    }
+
+    const storedStatuses = localStorage.getItem('spms_statuses');
+    const storedPriorities = localStorage.getItem('spms_priorities');
+
+    if (storedStatuses) {
+      setStatuses(JSON.parse(storedStatuses));
+    } else {
+      localStorage.setItem('spms_statuses', JSON.stringify(initialStatuses));
+      setStatuses(initialStatuses);
+    }
+
+    if (storedPriorities) {
+      setPriorities(JSON.parse(storedPriorities));
+    } else {
+      localStorage.setItem('spms_priorities', JSON.stringify(initialPriorities));
+      setPriorities(initialPriorities);
     }
   }, []);
 
@@ -236,6 +253,54 @@ export const DataProvider = ({ children }) => {
     saveToStorage('spms_projects', updatedProjects, setProjects);
   };
 
+  // ---------------- STATUS CRUD ----------------
+  const addStatus = (statusData) => {
+    const newId = statuses.length > 0 ? Math.max(...statuses.map((s) => s.StatusId)) + 1 : 1;
+    const newStatus = {
+      StatusId: newId,
+      StatusName: statusData.StatusName,
+    };
+    const updatedStatuses = [...statuses, newStatus];
+    saveToStorage('spms_statuses', updatedStatuses, setStatuses);
+    return newStatus;
+  };
+
+  const updateStatus = (statusId, updatedData) => {
+    const updatedStatuses = statuses.map((s) =>
+      s.StatusId === Number(statusId) ? { ...s, ...updatedData } : s
+    );
+    saveToStorage('spms_statuses', updatedStatuses, setStatuses);
+  };
+
+  const deleteStatus = (statusId) => {
+    const updatedStatuses = statuses.filter((s) => s.StatusId !== Number(statusId));
+    saveToStorage('spms_statuses', updatedStatuses, setStatuses);
+  };
+
+  // ---------------- PRIORITY CRUD ----------------
+  const addPriority = (priorityData) => {
+    const newId = priorities.length > 0 ? Math.max(...priorities.map((p) => p.PriorityId)) + 1 : 1;
+    const newPriority = {
+      PriorityId: newId,
+      PriorityName: priorityData.PriorityName,
+    };
+    const updatedPriorities = [...priorities, newPriority];
+    saveToStorage('spms_priorities', updatedPriorities, setPriorities);
+    return newPriority;
+  };
+
+  const updatePriority = (priorityId, updatedData) => {
+    const updatedPriorities = priorities.map((p) =>
+      p.PriorityId === Number(priorityId) ? { ...p, ...updatedData } : p
+    );
+    saveToStorage('spms_priorities', updatedPriorities, setPriorities);
+  };
+
+  const deletePriority = (priorityId) => {
+    const updatedPriorities = priorities.filter((p) => p.PriorityId !== Number(priorityId));
+    saveToStorage('spms_priorities', updatedPriorities, setPriorities);
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -253,6 +318,12 @@ export const DataProvider = ({ children }) => {
         addTask,
         updateTask,
         deleteTask,
+        addStatus,
+        updateStatus,
+        deleteStatus,
+        addPriority,
+        updatePriority,
+        deletePriority,
       }}
     >
       {children}
