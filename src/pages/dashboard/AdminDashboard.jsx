@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import { StatCard } from '../../components/common/StatCard';
 import { Users, FolderGit, CheckSquare, Layers } from 'lucide-react';
+import { toast, Toaster } from 'react-hot-toast';
 import { 
   BarChart, 
   Bar, 
@@ -17,7 +18,7 @@ import {
 import { STATUSES, PRIORITIES } from '../../data/mockData';
 
 export const AdminDashboard = () => {
-  const { users, projects, tasks } = useData();
+  const { users, projects, tasks, updateTask } = useData();
 
   // Statistics calculations
   const totalUsers = users.length;
@@ -83,6 +84,7 @@ export const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
+      <Toaster position="top-right" />
       {/* Top Banner */}
       <div className="flex items-center justify-between">
         <div>
@@ -262,6 +264,82 @@ export const AdminDashboard = () => {
                 );
               })}
           </div>
+        </div>
+      </div>
+
+      {/* Recent Tasks Management */}
+      <div className="glass-card p-5 mt-6">
+        <h3 className="text-sm font-bold text-slate-350 font-display mb-4 uppercase tracking-wider">
+          Quick Task Management (Recent)
+        </h3>
+        <div className="overflow-x-auto rounded-lg border border-slate-850">
+          <table className="w-full border-collapse text-left text-sm text-slate-300">
+            <thead className="bg-[#1b1b3a]/75 text-slate-200 uppercase text-xs tracking-wider border-b border-slate-800">
+              <tr>
+                <th className="px-5 py-4 font-semibold">Title</th>
+                <th className="px-5 py-4 font-semibold">Project Module</th>
+                <th className="px-5 py-4 font-semibold">Status</th>
+                <th className="px-5 py-4 font-semibold">Priority</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-800/40">
+              {tasks.slice(-5).reverse().map((t) => (
+                <tr key={t.TaskId} className="hover:bg-slate-800/20 transition-colors">
+                  <td className="px-5 py-4">
+                    <span className="font-semibold text-slate-200 block text-sm">{t.TaskTitle}</span>
+                  </td>
+                  <td className="px-5 py-4 text-xs font-semibold text-brand-400 max-w-[200px] truncate">
+                    {projects.find(p => p.ProjectId === t.ProjectId)?.ProjectTitle || 'Unknown'}
+                  </td>
+                  <td className="px-5 py-4">
+                    <select
+                      value={t.Status}
+                      onChange={(e) => {
+                        const newStatus = e.target.value;
+                        const patch = { Status: newStatus };
+                        if (newStatus === STATUSES.COMPLETED) {
+                          patch.CompletedDate = new Date().toISOString().split('T')[0];
+                          patch.EarnedScore = t.EarnedScore || t.AssignedScore;
+                        }
+                        updateTask(t.TaskId, patch);
+                        toast.success(`Status updated to ${newStatus}`, {
+                          style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+                        });
+                      }}
+                      className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-205 focus:outline-none focus:border-brand-500"
+                    >
+                      <option value={STATUSES.PENDING}>Pending</option>
+                      <option value={STATUSES.IN_PROGRESS}>In Progress</option>
+                      <option value={STATUSES.COMPLETED}>Completed</option>
+                    </select>
+                  </td>
+                  <td className="px-5 py-4">
+                    <select
+                      value={t.Priority}
+                      onChange={(e) => {
+                        updateTask(t.TaskId, { Priority: e.target.value });
+                        toast.success(`Priority updated to ${e.target.value}`, {
+                          style: { backgroundColor: '#141432', color: '#fff', border: '1px solid #1e293b' },
+                        });
+                      }}
+                      className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1 text-xs text-slate-205 focus:outline-none focus:border-brand-500"
+                    >
+                      <option value={PRIORITIES.LOW}>Low</option>
+                      <option value={PRIORITIES.MEDIUM}>Medium</option>
+                      <option value={PRIORITIES.HIGH}>High</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+              {tasks.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="text-center py-8 text-slate-500 text-sm">
+                    No task milestones logged in system.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
