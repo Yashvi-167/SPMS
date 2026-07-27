@@ -9,7 +9,7 @@ CREATE TABLE Priority (
 
 INSERT INTO Priority (PriorityID, PriorityName, PriorityCssClass) VALUES
 (1, 'Low', 'badge bg-success'),
-(2, 'Medium', 'badge bg-warning text-dark'),
+(2, 'Moderate', 'badge bg-warning text-dark'),
 (3, 'High', 'badge bg-danger'),
 (4, 'Critical', 'badge bg-dark');
 
@@ -27,7 +27,8 @@ INSERT INTO Status (StatusID, StatusName, StatusCssClass) VALUES
 (4, 'Approved', 'badge bg-primary'),
 (5, 'Rejected', 'badge bg-danger'),
 (6, 'Completed', 'badge bg-success'),
-(7, 'Ongoing', 'badge bg-info');
+(7, 'Ongoing', 'badge bg-info'),
+(8, 'Cancelled', 'badge bg-secondary');
 
 -- 3. Task Table (Snippet showing the requested Foreign Keys)
 -- Note: This assumes a Task table exists. The constraints below enforce the schema.
