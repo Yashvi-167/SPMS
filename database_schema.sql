@@ -36,8 +36,10 @@ CREATE TABLE Task (
     TaskTitle VARCHAR(255) NOT NULL,
     TaskDescription TEXT,
     
-    -- Task Status & Priority Foreign Keys as requested
+    -- TaskStatusID Int Not Null, FK → Status (Ongoing, Cancelled, Completed, Pending)
     TaskStatusID INT NOT NULL,
+    
+    -- TaskPriorityID Int Not Null, FK → Priority (Critical, Moderate, Low)
     TaskPriorityID INT NOT NULL,
     
     CONSTRAINT FK_Task_Status FOREIGN KEY (TaskStatusID) REFERENCES Status(StatusID),
