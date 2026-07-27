@@ -19,7 +19,7 @@ export const STATUSES = [
 
 export const PRIORITIES = [
   { PriorityID: 1, PriorityName: 'Low', PriorityCssClass: 'badge bg-success' },
-  { PriorityID: 2, PriorityName: 'Moderate', PriorityCssClass: 'badge bg-warning text-dark' },
+  { PriorityID: 2, PriorityName: 'Medium', PriorityCssClass: 'badge bg-warning text-dark' },
   { PriorityID: 3, PriorityName: 'High', PriorityCssClass: 'badge bg-danger' },
   { PriorityID: 4, PriorityName: 'Critical', PriorityCssClass: 'badge bg-dark' }
 ];

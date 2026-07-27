@@ -9,7 +9,7 @@ CREATE TABLE Priority (
 
 INSERT INTO Priority (PriorityID, PriorityName, PriorityCssClass) VALUES
 (1, 'Low', 'badge bg-success'),
-(2, 'Moderate', 'badge bg-warning text-dark'),
+(2, 'Medium', 'badge bg-warning text-dark'),
 (3, 'High', 'badge bg-danger'),
 (4, 'Critical', 'badge bg-dark');
 
