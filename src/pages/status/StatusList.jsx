@@ -32,8 +32,8 @@ export const StatusList = () => {
   };
 
   const handleStatusChange = (projectId, newStatus) => {
-    updateProject(projectId, { Status: newStatus });
-    toast.success(`Project status updated to ${newStatus}`);
+    updateProject(projectId, { StatusID: newStatus });
+    toast.success(`Project status updated`);
   };
 
   return (
@@ -72,13 +72,13 @@ export const StatusList = () => {
                     </td>
                     <td className="px-5 py-4">
                       <select
-                        value={p.Status}
-                        onChange={(e) => handleStatusChange(p.ProjectId, e.target.value)}
+                        value={p.StatusID}
+                        onChange={(e) => handleStatusChange(p.ProjectId, parseInt(e.target.value, 10))}
                         className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-semibold"
                       >
-                        <option value={STATUSES.PENDING}>Pending</option>
-                        <option value={STATUSES.IN_PROGRESS}>In Progress</option>
-                        <option value={STATUSES.COMPLETED}>Completed</option>
+                        {STATUSES.map(s => (
+                          <option key={s.StatusID} value={s.StatusID}>{s.StatusName}</option>
+                        ))}
                       </select>
                     </td>
                     <td className="px-5 py-4 text-right">

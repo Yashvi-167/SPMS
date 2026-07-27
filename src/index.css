@@ -63,3 +63,24 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* Bootstrap Badge Utilities for Database Schema Compatibility */
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.375rem;
+}
+.bg-success { background-color: #198754 !important; }
+.bg-danger { background-color: #dc3545 !important; }
+.bg-warning { background-color: #ffc107 !important; }
+.bg-primary { background-color: #0d6efd !important; }
+.bg-info { background-color: #0dcaf0 !important; }
+.bg-dark { background-color: #212529 !important; }
+.text-dark { color: #212529 !important; }

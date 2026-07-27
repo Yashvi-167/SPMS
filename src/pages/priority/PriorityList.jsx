@@ -37,8 +37,8 @@ export const PriorityList = () => {
   };
   
   const handlePriorityChange = (taskId, newPriority) => {
-    updateTask(taskId, { Priority: newPriority });
-    toast.success(`Task priority updated to ${newPriority}`);
+    updateTask(taskId, { TaskPriorityID: newPriority });
+    toast.success(`Task priority updated`);
   };
 
   return (
@@ -77,13 +77,13 @@ export const PriorityList = () => {
                     </td>
                     <td className="px-5 py-4">
                       <select
-                        value={t.Priority}
-                        onChange={(e) => handlePriorityChange(t.TaskId, e.target.value)}
+                        value={t.TaskPriorityID}
+                        onChange={(e) => handlePriorityChange(t.TaskId, parseInt(e.target.value, 10))}
                         className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-semibold"
                       >
-                        <option value={PRIORITIES.LOW}>Low</option>
-                        <option value={PRIORITIES.MEDIUM}>Medium</option>
-                        <option value={PRIORITIES.HIGH}>High</option>
+                        {PRIORITIES.map(p => (
+                          <option key={p.PriorityID} value={p.PriorityID}>{p.PriorityName}</option>
+                        ))}
                       </select>
                     </td>
                     <td className="px-5 py-4 text-right">

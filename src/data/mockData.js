@@ -6,17 +6,22 @@ export const ROLES = {
   STUDENT: 3,
 };
 
-export const STATUSES = {
-  PENDING: 'Pending',
-  IN_PROGRESS: 'In Progress',
-  COMPLETED: 'Completed',
-};
+export const STATUSES = [
+  { StatusID: 1, StatusName: 'Active', StatusCssClass: 'badge bg-success' },
+  { StatusID: 2, StatusName: 'Inactive', StatusCssClass: 'badge bg-danger' },
+  { StatusID: 3, StatusName: 'Pending', StatusCssClass: 'badge bg-warning text-dark' },
+  { StatusID: 4, StatusName: 'Approved', StatusCssClass: 'badge bg-primary' },
+  { StatusID: 5, StatusName: 'Rejected', StatusCssClass: 'badge bg-danger' },
+  { StatusID: 6, StatusName: 'Completed', StatusCssClass: 'badge bg-success' },
+  { StatusID: 7, StatusName: 'Ongoing', StatusCssClass: 'badge bg-info' }
+];
 
-export const PRIORITIES = {
-  LOW: 'Low',
-  MEDIUM: 'Medium',
-  HIGH: 'High',
-};
+export const PRIORITIES = [
+  { PriorityID: 1, PriorityName: 'Low', PriorityCssClass: 'badge bg-success' },
+  { PriorityID: 2, PriorityName: 'Medium', PriorityCssClass: 'badge bg-warning text-dark' },
+  { PriorityID: 3, PriorityName: 'High', PriorityCssClass: 'badge bg-danger' },
+  { PriorityID: 4, PriorityName: 'Critical', PriorityCssClass: 'badge bg-dark' }
+];
 
 export const initialRoles = [
   { RoleId: ROLES.ADMIN, RoleName: 'Admin' },
@@ -24,17 +29,8 @@ export const initialRoles = [
   { RoleId: ROLES.STUDENT, RoleName: 'Student' },
 ];
 
-export const initialStatuses = [
-  { StatusId: 1, StatusName: STATUSES.PENDING },
-  { StatusId: 2, StatusName: STATUSES.IN_PROGRESS },
-  { StatusId: 3, StatusName: STATUSES.COMPLETED },
-];
-
-export const initialPriorities = [
-  { PriorityId: 1, PriorityName: PRIORITIES.LOW },
-  { PriorityId: 2, PriorityName: PRIORITIES.MEDIUM },
-  { PriorityId: 3, PriorityName: PRIORITIES.HIGH },
-];
+export const initialStatuses = STATUSES;
+export const initialPriorities = PRIORITIES;
 
 export const initialUsers = [
   // Admins
@@ -151,7 +147,7 @@ export const initialProjects = [
     FacultyId: 3, // Prof. Alan Turing
     StartDate: '2026-06-01',
     EndDate: '2026-12-15',
-    Status: STATUSES.IN_PROGRESS,
+    StatusID: 7, // Ongoing
     ProgressPercentage: 65,
   },
   {
@@ -162,7 +158,7 @@ export const initialProjects = [
     FacultyId: 3, // Prof. Alan Turing
     StartDate: '2026-05-15',
     EndDate: '2026-11-30',
-    Status: STATUSES.IN_PROGRESS,
+    StatusID: 7, // Ongoing
     ProgressPercentage: 40,
   },
   {
@@ -173,7 +169,7 @@ export const initialProjects = [
     FacultyId: 4, // Dr. Grace Hopper
     StartDate: '2026-04-10',
     EndDate: '2026-10-20',
-    Status: STATUSES.IN_PROGRESS,
+    StatusID: 1, // Active
     ProgressPercentage: 80,
   },
   {
@@ -184,7 +180,7 @@ export const initialProjects = [
     FacultyId: 5, // Dr. Richard Feynman
     StartDate: '2026-07-01',
     EndDate: '2026-12-01',
-    Status: STATUSES.PENDING,
+    StatusID: 3, // Pending
     ProgressPercentage: 0,
   },
   {
@@ -195,7 +191,7 @@ export const initialProjects = [
     FacultyId: 4, // Dr. Grace Hopper
     StartDate: '2026-03-01',
     EndDate: '2026-06-30',
-    Status: STATUSES.COMPLETED,
+    StatusID: 6, // Completed
     ProgressPercentage: 100,
   },
 ];
@@ -207,8 +203,8 @@ export const initialTasks = [
     ProjectId: 1,
     TaskTitle: 'Requirement Analysis & Modeling',
     TaskDescription: 'Define requirements, map constraints, and model the pathfinding algorithm logic.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 3, // High
     AssignedScore: 10,
     EarnedScore: 10,
     StartDate: '2026-06-01',
@@ -220,8 +216,8 @@ export const initialTasks = [
     ProjectId: 1,
     TaskTitle: 'AR Engine Selection & Integration',
     TaskDescription: 'Research and evaluate Unity vs. WebXR for the AR rendering pipeline.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.MEDIUM,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 2, // Medium
     AssignedScore: 15,
     EarnedScore: 14,
     StartDate: '2026-06-16',
@@ -233,8 +229,8 @@ export const initialTasks = [
     ProjectId: 1,
     TaskTitle: 'Machine Learning Pathfinding Algorithm',
     TaskDescription: 'Implement A* algorithm and train model on campus geometry mappings.',
-    Status: STATUSES.IN_PROGRESS,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 7, // Ongoing
+    TaskPriorityID: 3, // High
     AssignedScore: 30,
     EarnedScore: 0,
     StartDate: '2026-07-11',
@@ -246,8 +242,8 @@ export const initialTasks = [
     ProjectId: 1,
     TaskTitle: 'User Interface Construction',
     TaskDescription: 'Design user-friendly interactive screens and map overlays.',
-    Status: STATUSES.PENDING,
-    Priority: PRIORITIES.LOW,
+    TaskStatusID: 3, // Pending
+    TaskPriorityID: 1, // Low
     AssignedScore: 20,
     EarnedScore: 0,
     StartDate: '2026-09-01',
@@ -261,8 +257,8 @@ export const initialTasks = [
     ProjectId: 2,
     TaskTitle: 'Qubit Mathematical Framework Coding',
     TaskDescription: 'Create complex vector spaces representing qubit states and polarization matrices.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 3, // High
     AssignedScore: 20,
     EarnedScore: 18.5,
     StartDate: '2026-05-15',
@@ -274,8 +270,8 @@ export const initialTasks = [
     ProjectId: 2,
     TaskTitle: 'Simulation of BB84 Protocol Steps',
     TaskDescription: 'Code states for transmitter (Alice) and receiver (Bob) with base choices.',
-    Status: STATUSES.IN_PROGRESS,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 7, // Ongoing
+    TaskPriorityID: 3, // High
     AssignedScore: 30,
     EarnedScore: 0,
     StartDate: '2026-06-16',
@@ -287,8 +283,8 @@ export const initialTasks = [
     ProjectId: 2,
     TaskTitle: 'Eavesdropping (Eve) Module Integration',
     TaskDescription: 'Add interception methods to demonstrate noise injection and key mismatch rates.',
-    Status: STATUSES.PENDING,
-    Priority: PRIORITIES.MEDIUM,
+    TaskStatusID: 3, // Pending
+    TaskPriorityID: 2, // Medium
     AssignedScore: 25,
     EarnedScore: 0,
     StartDate: '2026-08-16',
@@ -302,8 +298,8 @@ export const initialTasks = [
     ProjectId: 3,
     TaskTitle: 'AST Parser Configuration',
     TaskDescription: 'Integrate Esprima parser to output valid abstract syntax trees for JS/TS code.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 3, // High
     AssignedScore: 25,
     EarnedScore: 24,
     StartDate: '2026-04-10',
@@ -315,8 +311,8 @@ export const initialTasks = [
     ProjectId: 3,
     TaskTitle: 'SQL Injection AST Detection Rules',
     TaskDescription: 'Define queries traversal patterns identifying unsanitized template literal arguments.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 3, // High
     AssignedScore: 25,
     EarnedScore: 25,
     StartDate: '2026-05-11',
@@ -328,8 +324,8 @@ export const initialTasks = [
     ProjectId: 3,
     TaskTitle: 'XSS Detection Logic & Rules',
     TaskDescription: 'Define rules for tracking innerHTML and dangerouslySetInnerHTML properties.',
-    Status: STATUSES.IN_PROGRESS,
-    Priority: PRIORITIES.MEDIUM,
+    TaskStatusID: 7, // Ongoing
+    TaskPriorityID: 2, // Medium
     AssignedScore: 20,
     EarnedScore: 0,
     StartDate: '2026-06-21',
@@ -343,8 +339,8 @@ export const initialTasks = [
     ProjectId: 4,
     TaskTitle: 'Sensor Calibration & Calibration Tests',
     TaskDescription: 'Hardware testing of PM2.5, DHT22 and sound sensors for precision offsets.',
-    Status: STATUSES.PENDING,
-    Priority: PRIORITIES.MEDIUM,
+    TaskStatusID: 3, // Pending
+    TaskPriorityID: 2, // Medium
     AssignedScore: 30,
     EarnedScore: 0,
     StartDate: '2026-07-01',
@@ -358,8 +354,8 @@ export const initialTasks = [
     ProjectId: 5,
     TaskTitle: 'Smart Contract Design & Verification',
     TaskDescription: 'Draft contracts in Solidity verifying double voting prevention.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.HIGH,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 3, // High
     AssignedScore: 40,
     EarnedScore: 39.5,
     StartDate: '2026-03-01',
@@ -371,8 +367,8 @@ export const initialTasks = [
     ProjectId: 5,
     TaskTitle: 'Web3 Login Integration',
     TaskDescription: 'Integrate Metamask signature-based user authentication checks.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.MEDIUM,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 2, // Medium
     AssignedScore: 30,
     EarnedScore: 28,
     StartDate: '2026-04-16',
@@ -384,8 +380,8 @@ export const initialTasks = [
     ProjectId: 5,
     TaskTitle: 'Frontend Auditing Interface',
     TaskDescription: 'Develop real-time public ledger charts scanning smart contract logs.',
-    Status: STATUSES.COMPLETED,
-    Priority: PRIORITIES.LOW,
+    TaskStatusID: 6, // Completed
+    TaskPriorityID: 1, // Low
     AssignedScore: 30,
     EarnedScore: 30,
     StartDate: '2026-05-26',
