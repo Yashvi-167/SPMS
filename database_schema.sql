@@ -27,8 +27,7 @@ INSERT INTO Status (StatusID, StatusName, StatusCssClass) VALUES
 (4, 'Approved', 'badge bg-primary'),
 (5, 'Rejected', 'badge bg-danger'),
 (6, 'Completed', 'badge bg-success'),
-(7, 'Ongoing', 'badge bg-info'),
-(8, 'Cancelled', 'badge bg-secondary');
+(7, 'Ongoing', 'badge bg-info');
 
 -- 3. Task Table (Snippet showing the requested Foreign Keys)
 -- Note: This assumes a Task table exists. The constraints below enforce the schema.

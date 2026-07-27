@@ -13,8 +13,7 @@ export const STATUSES = [
   { StatusID: 4, StatusName: 'Approved', StatusCssClass: 'badge bg-primary' },
   { StatusID: 5, StatusName: 'Rejected', StatusCssClass: 'badge bg-danger' },
   { StatusID: 6, StatusName: 'Completed', StatusCssClass: 'badge bg-success' },
-  { StatusID: 7, StatusName: 'Ongoing', StatusCssClass: 'badge bg-info' },
-  { StatusID: 8, StatusName: 'Cancelled', StatusCssClass: 'badge bg-secondary' }
+  { StatusID: 7, StatusName: 'Ongoing', StatusCssClass: 'badge bg-info' }
 ];
 
 export const PRIORITIES = [
