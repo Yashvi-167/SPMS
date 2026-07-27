@@ -51,23 +51,9 @@ export const AppRouter = () => {
           {/* Tasks (Admin, Faculty, Student) */}
           <Route path="tasks" element={<TaskList />} />
           
-          {/* Status & Priority Management (Admin only) */}
-          <Route
-            path="status"
-            element={
-              <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
-                <StatusList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="priority"
-            element={
-              <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
-                <PriorityList />
-              </ProtectedRoute>
-            }
-          />
+          {/* Status & Priority Management */}
+          <Route path="status" element={<StatusList />} />
+          <Route path="priority" element={<PriorityList />} />
           
           {/* Profile Details */}
           <Route path="profile" element={<Profile />} />

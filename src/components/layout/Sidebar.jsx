@@ -55,13 +55,13 @@ export const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
       label: 'Status',
       path: '/status',
       icon: Activity,
-      roles: [ROLES.ADMIN],
+      roles: [ROLES.ADMIN, ROLES.FACULTY, ROLES.STUDENT],
     },
     {
       label: 'Priority',
       path: '/priority',
       icon: AlertCircle,
-      roles: [ROLES.ADMIN],
+      roles: [ROLES.ADMIN, ROLES.FACULTY, ROLES.STUDENT],
     },
     {
       label: 'Profile',
