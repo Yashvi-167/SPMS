@@ -57,7 +57,7 @@ export const StatusList = () => {
           <table className="w-full border-collapse text-left text-sm text-slate-300">
             <thead className="bg-[#1b1b3a]/75 text-slate-200 uppercase text-xs tracking-wider border-b border-slate-800">
               <tr>
-                <th className="px-5 py-4 font-semibold w-24">Status ID</th>
+                <th className="px-5 py-4 font-semibold w-24">ID</th>
                 <th className="px-5 py-4 font-semibold w-48">Status Name</th>
                 <th className="px-5 py-4 font-semibold">Project Name</th>
                 <th className="px-5 py-4 font-semibold text-right w-24">Actions</th>
@@ -65,10 +65,10 @@ export const StatusList = () => {
             </thead>
             <tbody className="divide-y divide-slate-800/40">
               {projects && projects.length > 0 ? (
-                projects.map((p) => (
+                projects.map((p, index) => (
                   <tr key={p.ProjectId} className="hover:bg-slate-800/20 transition-colors group">
                     <td className="px-5 py-4 font-semibold text-slate-200">
-                      {p.StatusID || p.Status}
+                      {index + 1}
                     </td>
                     <td className="px-5 py-4">
                       <select
