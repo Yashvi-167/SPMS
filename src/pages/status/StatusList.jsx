@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { Activity, Edit2, Trash2, List } from 'lucide-react';
+import { Activity, Edit2, Trash2 } from 'lucide-react';
 import { STATUSES } from '../../data/mockData';
 import { ProjectForm } from '../projects/ProjectForm';
 import { Modal } from '../../components/common/Modal';
 import toast from 'react-hot-toast';
 
 export const StatusList = () => {
-  const { projects, updateProject, deleteProject, statuses } = useData();
+  const { projects, updateProject, deleteProject } = useData();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -42,12 +42,11 @@ export const StatusList = () => {
         <div>
           <h1 className="text-2xl font-black font-display text-white">Project Status Overview</h1>
           <p className="text-slate-400 text-xs mt-1">
-            Quickly view and update the status of all active projects, and manage system statuses.
+            Quickly view and update the status of all active projects.
           </p>
         </div>
       </div>
 
-      {/* Projects Table */}
       <div className="glass-card p-6">
         <div className="flex items-center gap-2 mb-6">
           <Activity className="w-5 h-5 text-brand-400" />
@@ -58,8 +57,9 @@ export const StatusList = () => {
           <table className="w-full border-collapse text-left text-sm text-slate-300">
             <thead className="bg-[#1b1b3a]/75 text-slate-200 uppercase text-xs tracking-wider border-b border-slate-800">
               <tr>
+                <th className="px-5 py-4 font-semibold w-24">Status ID</th>
+                <th className="px-5 py-4 font-semibold w-48">Status Name</th>
                 <th className="px-5 py-4 font-semibold">Project Name</th>
-                <th className="px-5 py-4 font-semibold w-48">Status</th>
                 <th className="px-5 py-4 font-semibold text-right w-24">Actions</th>
               </tr>
             </thead>
@@ -67,9 +67,8 @@ export const StatusList = () => {
               {projects && projects.length > 0 ? (
                 projects.map((p) => (
                   <tr key={p.ProjectId} className="hover:bg-slate-800/20 transition-colors group">
-                    <td className="px-5 py-4">
-                      <span className="font-semibold text-slate-200 block text-sm">{p.ProjectTitle}</span>
-                      <span className="text-xs text-slate-500 line-clamp-1 mt-0.5">{p.Description}</span>
+                    <td className="px-5 py-4 font-semibold text-slate-200">
+                      {p.StatusID}
                     </td>
                     <td className="px-5 py-4">
                       <select
@@ -83,6 +82,10 @@ export const StatusList = () => {
                           </option>
                         ))}
                       </select>
+                    </td>
+                    <td className="px-5 py-4">
+                      <span className="font-semibold text-slate-200 block text-sm">{p.ProjectTitle}</span>
+                      <span className="text-xs text-slate-500 line-clamp-1 mt-0.5">{p.Description}</span>
                     </td>
                     <td className="px-5 py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
@@ -106,51 +109,8 @@ export const StatusList = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="text-center py-8 text-slate-500 text-sm">
+                  <td colSpan={4} className="text-center py-8 text-slate-500 text-sm">
                     No projects found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Status Reference Table */}
-      <div className="glass-card p-6 mt-8">
-        <div className="flex items-center gap-2 mb-6">
-          <List className="w-5 h-5 text-brand-400" />
-          <h2 className="text-base font-bold text-slate-200 font-display uppercase tracking-wider">Status Definitions</h2>
-        </div>
-        
-        <div className="overflow-x-auto rounded-lg border border-slate-850">
-          <table className="w-full border-collapse text-left text-sm text-slate-300">
-            <thead className="bg-[#1b1b3a]/75 text-slate-200 uppercase text-xs tracking-wider border-b border-slate-800">
-              <tr>
-                <th className="px-5 py-4 font-semibold">StatusID</th>
-                <th className="px-5 py-4 font-semibold">StatusName</th>
-                <th className="px-5 py-4 font-semibold">StatusCssClass</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/40">
-              {statuses && statuses.length > 0 ? (
-                statuses.map((s) => (
-                  <tr key={s.StatusID || s.StatusId} className="hover:bg-slate-800/20 transition-colors group">
-                    <td className="px-5 py-4 font-semibold text-slate-200">
-                      {s.StatusID || s.StatusId}
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className={s.StatusCssClass}>{s.StatusName}</span>
-                    </td>
-                    <td className="px-5 py-4 font-mono text-xs text-brand-400">
-                      {s.StatusCssClass}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={3} className="text-center py-8 text-slate-500 text-sm">
-                    No statuses found.
                   </td>
                 </tr>
               )}
