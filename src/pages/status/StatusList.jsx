@@ -68,13 +68,13 @@ export const StatusList = () => {
                 projects.map((p) => (
                   <tr key={p.ProjectId} className="hover:bg-slate-800/20 transition-colors group">
                     <td className="px-5 py-4 font-semibold text-slate-200">
-                      {p.StatusID}
+                      {p.StatusID || p.Status}
                     </td>
                     <td className="px-5 py-4">
                       <select
-                        value={p.StatusID}
+                        value={p.StatusID || p.Status}
                         onChange={(e) => handleStatusChange(p.ProjectId, parseInt(e.target.value, 10))}
-                        className={`border border-slate-800 rounded px-2.5 py-1.5 focus:outline-none focus:border-brand-500 font-semibold ${STATUSES.find(s => s.StatusID === p.StatusID)?.StatusCssClass || 'bg-[#1b1b3a] text-slate-200'}`}
+                        className={`border border-slate-800 rounded px-2.5 py-1.5 focus:outline-none focus:border-brand-500 font-semibold ${STATUSES.find(s => s.StatusID === (p.StatusID || p.Status))?.StatusCssClass || 'bg-[#1b1b3a] text-slate-200'}`}
                       >
                         {STATUSES.map(s => (
                           <option key={s.StatusID} value={s.StatusID} className="bg-[#1b1b3a] text-slate-200">
