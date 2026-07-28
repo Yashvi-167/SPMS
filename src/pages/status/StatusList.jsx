@@ -74,10 +74,12 @@ export const StatusList = () => {
                       <select
                         value={p.StatusID}
                         onChange={(e) => handleStatusChange(p.ProjectId, parseInt(e.target.value, 10))}
-                        className="bg-[#1b1b3a] border border-slate-800 rounded px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-semibold"
+                        className={`border border-slate-800 rounded px-2.5 py-1.5 focus:outline-none focus:border-brand-500 font-semibold ${STATUSES.find(s => s.StatusID === p.StatusID)?.StatusCssClass || 'bg-[#1b1b3a] text-slate-200'}`}
                       >
                         {STATUSES.map(s => (
-                          <option key={s.StatusID} value={s.StatusID}>{s.StatusName}</option>
+                          <option key={s.StatusID} value={s.StatusID} className="bg-[#1b1b3a] text-slate-200">
+                            {s.StatusName}
+                          </option>
                         ))}
                       </select>
                     </td>
